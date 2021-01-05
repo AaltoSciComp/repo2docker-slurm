@@ -1,3 +1,32 @@
+FROM python:3.7-slim
+
+# For binder
+RUN pip3 install --no-cache notebook
+
+# For binder
+ENV HOME=/tmp
+
+ARG NB_USER=jovyan
+ARG NB_UID=1000
+ENV USER ${NB_USER}
+ENV NB_UID ${NB_UID}
+ENV HOME /home/${NB_USER}
+
+RUN useradd  \
+    --comment "Default" \
+    --uid ${NB_UID} \
+    ${NB_USER}
+
+# Remove password for use since CentOS does not offer --disabled-password option
+RUN passwd -d ${NB_USER}
+
+# Make sure the contents of our repo are in ${HOME}
+COPY . ${HOME}
+USER root
+RUN chown -R ${NB_UID} ${HOME}
+USER ${NB_USER}
+
+# Docker CentOS image
 FROM centos:7.7.1908
 
 LABEL org.opencontainers.image.source="https://github.com/giovtorres/docker-centos7-slurm" \
@@ -135,29 +164,6 @@ RUN \
     rm -rf hpc-examples
 COPY files/hello-world /usr/local/modules/hello/bin/
 COPY files/modulefiles/ /usr/share/modulefiles/
-
-# For binder
-RUN pip3 install --no-cache-dir notebook==5.*
-
-ARG NB_USER=jovyan
-ARG NB_UID=1000
-ENV USER ${NB_USER}
-ENV NB_UID ${NB_UID}
-ENV HOME /home/${NB_USER}
-
-RUN useradd  \
-    --comment "Default" \
-    --uid ${NB_UID} \
-    ${NB_USER}
-
-# Remove password for use since CentOS does not offer --disabled-password option
-RUN passwd -d ${NB_USER}
-
-# Make sure the contents of our repo are in ${HOME}
-COPY . ${HOME}
-USER root
-RUN chown -R ${NB_UID} ${HOME}
-USER ${NB_USER}
 
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
 CMD ["/bin/bash"]
