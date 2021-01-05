@@ -2,6 +2,7 @@ FROM python:3.7-slim
 
 # For binder
 RUN pip3 install --no-cache notebook
+RUN pip3 install jupyter
 
 # For binder
 ENV HOME=/tmp
