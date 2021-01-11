@@ -5,8 +5,8 @@ if [ ! -f "/var/lib/mysql/ibdata1" ]; then
     /usr/bin/mysql_install_db --force &> /dev/null
 
     echo "- Updating MySQL directory permissions"
-    chown -R mysql:mysql /var/lib/mysql
-    chown -R mysql:mysql /var/run/mariadb
+    chown -R -f mysql:mysql /var/lib/mysql
+    chown -R -f mysql:mysql /var/run/mariadb
 fi
 
 if [ ! -d "/var/lib/mysql/slurm_acct_db" ]; then

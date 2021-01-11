@@ -137,6 +137,8 @@ RUN \
 COPY files/hello-world /usr/local/modules/hello/bin/
 COPY files/modulefiles/ /usr/share/modulefiles/
 
+ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
+
 # For binder
 RUN pip3 install --no-cache notebook
 RUN pip3 install jupyter
@@ -164,6 +166,5 @@ USER root
 RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
-ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
 CMD ["/bin/bash"]
 
