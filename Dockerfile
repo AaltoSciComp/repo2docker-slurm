@@ -167,4 +167,5 @@ COPY files/hello-world /usr/local/modules/hello/bin/
 COPY files/modulefiles/ /usr/share/modulefiles/
 
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
-CMD ["/bin/bash"]
+CMD ["localhost:8888/terminals/1"]
+CMD ["jupyter-notebook"]
