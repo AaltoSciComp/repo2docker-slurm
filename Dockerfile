@@ -30,6 +30,8 @@ USER ${NB_USER}
 # Docker CentOS image
 FROM centos:7.7.1908
 
+RUN pip3 install jupyter
+
 LABEL org.opencontainers.image.source="https://github.com/giovtorres/docker-centos7-slurm" \
       org.opencontainers.image.title="docker-centos7-slurm" \
       org.opencontainers.image.description="Slurm All-in-one Docker container on CentOS 7" \
@@ -168,4 +170,4 @@ COPY files/modulefiles/ /usr/share/modulefiles/
 
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
 CMD ["/bin/bash"]
-CMD ["jupyter-notebook"]
+
