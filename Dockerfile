@@ -149,7 +149,6 @@ USER root
 RUN usermod -aG wheel ${NB_USER}
 RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
+WORKDIR ${HOME}
 
 ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
-
-CMD ["/bin/bash"]
