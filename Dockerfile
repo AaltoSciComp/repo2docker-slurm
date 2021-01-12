@@ -53,6 +53,7 @@ RUN set -ex \
         vim-enhanced \
         xz-devel \
         zlib-devel \
+        sudo \
     && yum clean all \
     && rm -rf /var/cache/yum
 
@@ -122,38 +123,20 @@ ARG TINI_VERSION=v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /sbin/tini
 RUN chmod +x /sbin/tini
 
-# Add some modulefiles: hello and pi
-RUN \
-    mkdir -p /usr/local/modules/hello/bin/ && \
-    mkdir -p /usr/local/modules/pi/bin/ && \
-    cd /tmp && \
-    git clone https://github.com/AaltoSciComp/hpc-examples && \
-    mv hpc-examples/slurm/pi.py /usr/local/modules/pi/bin/pi && \
-    mv hpc-examples/slurm/pi_aggregation.py /usr/local/modules/pi/bin/pi_aggregation && \
-    mv hpc-examples/slurm/pi-mpi.py /usr/local/modules/pi/bin/pi-mpi && \
-    gcc hpc-examples/slurm/pi-openmp.c -o /usr/local/modules/pi/bin/pi-openmp && \
-    chmod a+x /usr/local/modules/pi/bin/* && \
-    rm -rf hpc-examples
-COPY files/hello-world /usr/local/modules/hello/bin/
-COPY files/modulefiles/ /usr/share/modulefiles/
-
-ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
 
 # For binder
 RUN pip3 install --no-cache notebook
-RUN pip3 install jupyter
 
 # For binder
-ENV HOME=/tmp
-
-ARG NB_USER=jovyan
+ARG NB_USER=def
 ARG NB_UID=1000
+
 ENV USER ${NB_USER}
-ENV NB_UID ${NB_UID}
+
 ENV HOME /home/${NB_USER}
 
-RUN useradd  \
-    --comment "Default" \
+RUN adduser  \
+    --comment "Default user" \
     --uid ${NB_UID} \
     ${NB_USER}
 
@@ -163,8 +146,10 @@ RUN passwd -d ${NB_USER}
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 USER root
-RUN chown -R ${NB_UID} ${HOME}
+RUN usermod -aG wheel ${NB_USER}
+RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/docker-entrypoint.sh"]
 
+CMD ["/bin/bash"]
