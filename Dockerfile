@@ -126,6 +126,7 @@ RUN chmod +x /sbin/tini
 
 # For binder
 RUN pip3 install --no-cache notebook
+ENV HOME=/tmp
 
 # For binder
 ARG NB_USER=jovyan
