@@ -123,6 +123,21 @@ ARG TINI_VERSION=v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /sbin/tini
 RUN chmod +x /sbin/tini
 
+# Add some modulefiles: hello and pi
+RUN \
+    mkdir -p /usr/local/modules/hello/bin/ && \
+    mkdir -p /usr/local/modules/pi/bin/ && \
+    cd /tmp && \
+    git clone https://github.com/AaltoSciComp/hpc-examples && \
+    mv hpc-examples/slurm/pi.py /usr/local/modules/pi/bin/pi && \
+    mv hpc-examples/slurm/pi_aggregation.py /usr/local/modules/pi/bin/pi_aggregation && \
+    mv hpc-examples/slurm/pi-mpi.py /usr/local/modules/pi/bin/pi-mpi && \
+    gcc hpc-examples/slurm/pi-openmp.c -o /usr/local/modules/pi/bin/pi-openmp && \
+    chmod a+x /usr/local/modules/pi/bin/* && \
+    rm -rf hpc-examples
+COPY files/hello-world /usr/local/modules/hello/bin/
+COPY files/modulefiles/ /usr/share/modulefiles/
+
 
 # For binder
 RUN pip3 install --no-cache notebook
