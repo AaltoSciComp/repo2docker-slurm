@@ -52,6 +52,8 @@ chown -R -f slurm:slurm /var/spool/slurmd /var/run/slurmd /var/lib/slurmd /var/l
 echo "- Starting all Slurm processes under supervisord"
 sudo /usr/bin/supervisord --configuration /etc/supervisord.conf
 
+sudo sed -i s/ernie/$(< /etc/hostname)/ /etc/slurm/slurm.conf 
+
 # The following is not needed in slurm > 20.02 (the cluster is created
 # automatically if it doesn't exist)
 echo "Slurm daemons are starting up..."
