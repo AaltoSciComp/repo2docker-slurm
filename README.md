@@ -162,7 +162,23 @@ pytest -v
 
 ## Running repo2docker locally
 
-Follow instructions from [here:](https://github.com/jupyterhub/repo2docker#prerequisites) until
-you see a Jupyter Notebook with the contents of the repository.
+Instructions are from [here:](https://github.com/jupyterhub/repo2docker#prerequisites)
+
+1. Install Docker if you do not have it already
+2. Install Python 3.6.+ 
+3. Run:
+```shell
+pip install jupyter-repo2docker
+```
+4. Start Docker if not running already
+5. Run:
+```shell
+jupyter-repo2docker https://github.com/norvig/pytudes
+```
+6. Go to the url when you see something like:
+```shell
+Copy/paste this URL into your browser when you connect for the first time, to login with a token:
+http://127.0.0.1:54272/?token=5615b2e23d8a21db9f2623038123390832a33e2d0eb7cf49
+```
 
 In the Jupyter view, on the right-hand side click "New" -> "Terminal" to launch shell where you are able to run Slurm commands.
