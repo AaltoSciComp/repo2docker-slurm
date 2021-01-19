@@ -162,7 +162,7 @@ pytest -v
 
 ## Running repo2docker locally
 
-Instructions are from [here:](https://github.com/jupyterhub/repo2docker#prerequisites)
+Instructions are from [here](https://github.com/jupyterhub/repo2docker#prerequisites)
 
 1. Install Docker if you do not have it already
 2. Install Python 3.6.+ 
@@ -173,7 +173,7 @@ pip install jupyter-repo2docker
 4. Start Docker if not running already
 5. Run:
 ```shell
-jupyter-repo2docker https://github.com/norvig/pytudes
+jupyter-repo2docker https://github.com/AaltoSciComp/repo2docker-slurm
 ```
 6. Go to the url when you see something like:
 ```shell
