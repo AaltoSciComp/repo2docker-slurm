@@ -159,3 +159,10 @@ build and run a Docker container test fixture. Run the tests with
 ```shell
 pytest -v
 ```
+
+## Running repo2docker locally
+
+Follow instructions from [here:](https://github.com/jupyterhub/repo2docker#prerequisites) until
+you see a Jupyter Notebook with the contents of the repository.
+
+In the Jupyter view, on the right-hand side click "New" -> "Terminal" to launch shell where you are able to run Slurm commands.
