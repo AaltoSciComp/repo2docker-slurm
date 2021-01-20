@@ -144,17 +144,17 @@ RUN pip3 install --no-cache notebook
 ENV HOME=/tmp
 
 # For binder
-ARG NB_USER=jovyan
+ARG NB_USER=slurm
 ARG NB_UID=1000
 
 ENV USER ${NB_USER}
 
 ENV HOME /home/${NB_USER}
 
-RUN adduser  \
-    --comment "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
+# RUN adduser  \
+#     --comment "Default user" \
+#     --uid ${NB_UID} \
+#     ${NB_USER}
 
 # Remove password for use since CentOS does not offer --disabled-password option
 RUN passwd -d ${NB_USER}
